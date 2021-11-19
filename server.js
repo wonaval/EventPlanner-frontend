@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
     res.sendFile(filepath)
 })
 
-app.get('/main.js', (req, res) => {
+app.get('/main.js', async (req, res) => {
     const filepath = path.join(__dirname, 'main.js')
 
     if (process.env.NODE_ENV === 'production') {
@@ -22,7 +22,6 @@ app.get('/main.js', (req, res) => {
             to: 'https://event-planner-seir1011.herokuapp.com'
         })
     }
-
     res.sendFile(filepath)
 })
 
