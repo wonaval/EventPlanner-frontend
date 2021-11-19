@@ -31,7 +31,7 @@ document.querySelector("#register").addEventListener("submit", async (event) => 
     const password = document.querySelector("#password").value;
     const membership = document.querySelector('input[name="membership"]:checked').value;
     try {
-        const response = await axios.post("/members", {
+        const response = await axios.post("http://event-planner-seir1011/members", {
             name: name,
             username: username,
             email: email,
