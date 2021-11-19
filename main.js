@@ -3,31 +3,99 @@ const backendUrl = 'http://localhost:3001'
 // Render elements on page
 function render() {
     if (localStorage.getItem("userId")) {
-        document.getElementById("profile").style.display = "flex";
-        document.getElementById("events").style.display = "flex";
-        document.getElementById("loginLink").style.display = "none";
-        document.getElementById("registerLink").style.display = "none";
+        document.querySelector("#profile").style.display = "flex";
+        document.querySelector("#events").style.display = "flex";
+        document.querySelector("#registerLink").style.display = "none";
         document.querySelector("#logout").style.display = "flex";
     } else {
-        document.getElementById("profile").style.display = "none";
-        document.getElementById("events").style.display = "none";
-        document.getElementById("loginLink").style.display = "flex";
-        document.getElementById("registerLink").style.display = "flex";
+        document.querySelector("#profile").style.display = "none";
+        document.querySelector("#events").style.display = "none";
+        document.querySelector("#registerLink").style.display = "flex";
         document.querySelector("#logout").style.display = "none";
         document.querySelector('.eventList').innerHTML = "</br>";
     }
 }
 render();
+showHome(); 
 
+function showHome()  {
+    document.querySelector('.createEvent').style.display = 'none';
+    document.querySelector('.account_info').style.display = 'none';
+    document.querySelector('.loginForm').style.display = 'none';
+    document.querySelector('.register').style.display = 'none';
+}
+
+function showEvents() {
+    document.querySelector('.createEvent').style.display = 'block';
+    document.querySelector('.account_info').style.display = 'none';
+    document.querySelector('.loginForm').style.display = 'none';
+    document.querySelector('.register').style.display = 'none';
+    render();
+    updateList();
+    updateDropDown();
+}
+
+function showAccount() {
+    document.querySelector('.createEvent').style.display = 'none';
+    document.querySelector('.account_info').style.display = 'block';
+    document.querySelector('.loginForm').style.display = 'none';
+    document.querySelector('.register').style.display = 'none';
+    render();
+    accountStatus();    
+
+}
+
+function showLogin() {
+    document.querySelector('.createEvent').style.display = 'none';
+    document.querySelector('.account_info').style.display = 'none';
+    document.querySelector('.loginForm').style.display = 'block';
+    document.querySelector('.register').style.display = 'block';
+    render();
+}
+
+// Navigation - .register/.loginForm/.createEvent/.account_info
+// Home
+document.querySelector('#home').addEventListener('click', async (evt)=>{
+    showHome(); 
+})
+
+// Register/Login
+document.querySelector('#registerLink').addEventListener('click', async (evt)=>{
+    showLogin();
+})
+
+// Account Info
+document.querySelector('#profile').addEventListener('click', async (evt)=>{
+    showAccount();
+})
+
+// Events Link
+document.querySelector('#events').addEventListener('click', async (evt)=>{
+    showEvents();
+})
+
+// Logout account
+document.querySelector('#logout').addEventListener('click', async (event) => {
+    await localStorage.removeItem('userId')
+    updateList();
+    updateDropDown();
+    showLogin();
+    alert('Logout successful')
+})
+
+
+
+// PAGE FUNCTIONS
 // Register account
 document.querySelector("#register").addEventListener("submit", async (event) => {
     event.preventDefault();
-    const name = document.querySelector("#name").value;
-    const username = document.querySelector("#username").value;
-    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
-    const membership = document.querySelector('input[name="membership"]:checked').value;
     try {
+        const name = document.querySelector("#name").value;
+        const username = document.querySelector("#username").value;
+        const email = document.querySelector("#email").value;
+        const password = document.querySelector("#password").value;
+        const membership = document.querySelector('input[name="membership"]:checked').value;
+
         const response = await axios.post("http://localhost:3001/members", {
             name: name,
             username: username,
@@ -38,19 +106,20 @@ document.querySelector("#register").addEventListener("submit", async (event) => 
         const userId = await response.data.userId
         await localStorage.setItem('userId', userId)
         document.querySelector('#register').reset();
-        await render(); 
-    } catch (err) {
-        console.log(err);
+        await showEvents();
+    } catch (error) {
+        console.log({error})
+        alert('Please ensure all information is filled out and correct')
     }
-    document.querySelector('#register').reset();
 });
 
 // Login account
 document.querySelector('#login-form').addEventListener("submit", async (event) => {
     event.preventDefault();
-    const email = document.querySelector('#email-username').value
-    const password = document.querySelector('#password-login').value
     try {
+        const email = document.querySelector('#email-username').value
+        const password = document.querySelector('#password-login').value
+
         const response = await axios.post('http://localhost:3001/members/login',{
             email: email,
             password: password
@@ -58,31 +127,13 @@ document.querySelector('#login-form').addEventListener("submit", async (event) =
         console.log(response)
         const userId = await response.data.user
         await localStorage.setItem('userId', userId)
-        render();
         document.querySelector('#login-form').reset();
+        showEvents();
     } catch (error) {
         console.log(error)
+        alert('Account not found')
     }
 });
-
-// Logout account
-document.querySelector('#logout').addEventListener('click', async (event) => {
-    await localStorage.removeItem('userId')
-    await render();
-    await updateDropDown();
-})
-
-
-// Account info
-document.querySelector('.account_info').addEventListener('click', async (event) => {
-    await axios.get('http://localhost:3001/members/account_info',{
-        headers: {
-            Authorization: localStorage.getItem('userId')
-        }
-    }).then((response)=>{
-        accountStatus();
-    })
-})
 
 // Create event
 document.querySelector('#createEvent').addEventListener('submit', async (event) => {
@@ -113,17 +164,9 @@ document.querySelector('#createEvent').addEventListener('submit', async (event) 
     updateList();
 })
 
-// Review events
-document.querySelector('#events').addEventListener('click', async (evt)=>{
-    evt.preventDefault()
-    try{
-        updateList();
-    } catch (error) {
-        console.log({error})
-    }
-})
 
-// Update Event List
+
+    // Update Event List
 async function updateList() {
     try{
         const axiosObject = await axios.get('http://localhost:3001/members/events', {
@@ -132,29 +175,28 @@ async function updateList() {
             }
         })
         const eventList = axiosObject.data.allEvents
-        
-        updateDropDown(eventList);
-
-        document.querySelector('.eventList').innerHTML = "";
-        for (let i = 0; i < eventList.length; i++) {
-            let eventDiv = document.createElement("div");
-            let eventId = document.createTextNode(`Event ID: ${eventList[i].id}`);
-            let eventTitle = document.createTextNode(`Title: ${eventList[i].description}`);
-            let eventDate = document.createTextNode(`Date: ${eventList[i].date.substring(0,10)}`);
-            let eventLocation = document.createTextNode(`Location: ${eventList[i].location}`);
-            eventDiv.appendChild(eventId);
-            eventDiv.appendChild(document.createElement("br"));
-            eventDiv.appendChild(eventTitle);
-            eventDiv.appendChild(document.createElement("br"));
-            eventDiv.appendChild(eventDate);
-            eventDiv.appendChild(document.createElement("br"));
-            eventDiv.appendChild(eventLocation);
-            eventDiv.appendChild(document.createElement("br"));
-            eventDiv.appendChild(document.createElement("br"));
-            const eventsList = document.querySelector(".eventList");
-            eventsList.appendChild(eventDiv);
+        if (eventList !== undefined) {
+            updateDropDown(eventList);
+            document.querySelector('.eventList').innerHTML = "";
+            for (let i = 0; i < eventList.length; i++) {
+                let eventDiv = document.createElement("div");
+                let eventId = document.createTextNode(`Event ID: ${eventList[i].id}`);
+                let eventTitle = document.createTextNode(`Title: ${eventList[i].description}`);
+                let eventDate = document.createTextNode(`Date: ${eventList[i].date.substring(0,10)}`);
+                let eventLocation = document.createTextNode(`Location: ${eventList[i].location}`);
+                eventDiv.appendChild(eventId);
+                eventDiv.appendChild(document.createElement("br"));
+                eventDiv.appendChild(eventTitle);
+                eventDiv.appendChild(document.createElement("br"));
+                eventDiv.appendChild(eventDate);
+                eventDiv.appendChild(document.createElement("br"));
+                eventDiv.appendChild(eventLocation);
+                eventDiv.appendChild(document.createElement("br"));
+                eventDiv.appendChild(document.createElement("br"));
+                const eventsList = document.querySelector(".eventList");
+                eventsList.appendChild(eventDiv);
+            }
         }
-
     } catch (error) {
         console.log(error)
     }
@@ -205,8 +247,9 @@ function accountStatus () {
 // Update subscription
 document.querySelector("#change-subscription").addEventListener("submit", async (event) => {
     event.preventDefault();
-    const tier = document.querySelector('input[name="subscription"]:checked').value;
     try {
+        const tier = document.querySelector('input[name="subscription"]:checked').value;
+
         const createEvent = await axios({
             method: 'put',
             url: 'http://localhost:3001/members',
@@ -235,7 +278,7 @@ document.querySelector('#deleteAccount').addEventListener('click', async (event)
                 }
             })
             await localStorage.removeItem('userId')
-            await render();
+            showLogin();
             alert('Account successfully deleted')
         } catch (error) {
             console.log(error)
@@ -261,7 +304,7 @@ document.querySelector('.deleteEvent').addEventListener('submit', async (event) 
                     Authorization: localStorage.getItem('userId')
                 }
             })
-            await render();
+            await showEvents();
             alert('Event successfully deleted')
         } catch (error) {
             console.log(error)
