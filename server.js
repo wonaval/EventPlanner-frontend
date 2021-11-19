@@ -19,7 +19,7 @@ app.get('/main.js', async (req, res) => {
         await replaceInFile({
             files: filepath,
             from: 'http://localhost:3001',
-            to: 'https://event-planner-seir1011.herokuapp.com'
+            to: 'https://event-planner-seir1011.herogkuapp.com'
         })
     }
     res.sendFile(filepath)

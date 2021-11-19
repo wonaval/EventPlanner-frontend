@@ -54,7 +54,7 @@ document.querySelector('#login-form').addEventListener("submit", async (event) =
     const email = document.querySelector('#email-username').value
     const password = document.querySelector('#password-login').value
     try {
-        const response = await axios.post('http://localhost:3001/members/login',{
+        const response = await axios.post('/members/login',{
             email: email,
             password: password
         })
@@ -78,7 +78,7 @@ document.querySelector('#logout').addEventListener('click', async (event) => {
 
 // Account info
 document.querySelector('.account_info').addEventListener('click', () => {
-    axios.get('http://localhost:3001/members/account_info',{
+    axios.get('/members/account_info',{
         headers: {
             Authorization: localStorage.getItem('userId')
         }
@@ -99,7 +99,7 @@ document.querySelector('#createEvent').addEventListener('submit', async (event) 
     try {
     const createEvent = await axios({
         method: 'post',
-        url: 'http://localhost:3001/events',
+        url: '/events',
         data: {
             date: date,
             location: location,
@@ -129,7 +129,7 @@ document.querySelector('#events').addEventListener('click', async (evt)=>{
 // Update Event List
 async function updateList() {
     try{
-        const axiosObject = await axios.get('http://localhost:3001/members/events', {
+        const axiosObject = await axios.get('/members/events', {
             headers: {
                 Authorization: localStorage.getItem('userId')
             }
@@ -184,7 +184,7 @@ async function updateDropDown (eventList) {
 // Update account status functions
 async function accountStatus () {
     if(localStorage.getItem('userId')) {
-        await axios.get('http://localhost:3001/members/account_info',{
+        await axios.get('/members/account_info',{
                 headers: {
                     Authorization: localStorage.getItem('userId')
                 }
@@ -213,7 +213,7 @@ document.querySelector("#change-subscription").addEventListener("submit", async 
 
         const createEvent = await axios({
             method: 'put',
-            url: 'http://localhost:3001/members',
+            url: '/members',
             data: {
                 level: tier
             },
@@ -233,7 +233,7 @@ document.querySelector('#deleteAccount').addEventListener('click', async (event)
         event.preventDefault();
     } else {
         try {
-            const deleteAccount = await axios.delete('http://localhost:3001/members', {
+            const deleteAccount = await axios.delete('/members', {
                 headers: {
                     Authorization: localStorage.getItem('userId')
                 }
@@ -257,7 +257,7 @@ document.querySelector('.deleteEvent').addEventListener('submit', async (event) 
             const eventId = document.querySelector('#eventId').value;
             const deleteEvent = await axios({
                 method: 'delete',
-                url: 'http://localhost:3001/events', 
+                url: '/events', 
                 data: {
                     id: eventId
                 },
