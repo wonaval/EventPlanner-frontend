@@ -8,8 +8,6 @@ function render() {
         document.getElementById("loginLink").style.display = "none";
         document.getElementById("registerLink").style.display = "none";
         document.querySelector("#logout").style.display = "flex";
-        accountStatus();
-        updateList();
     } else {
         document.getElementById("profile").style.display = "none";
         document.getElementById("events").style.display = "none";
@@ -17,7 +15,6 @@ function render() {
         document.getElementById("registerLink").style.display = "flex";
         document.querySelector("#logout").style.display = "none";
         document.querySelector('.eventList').innerHTML = "</br>";
-        accountStatus();
     }
 }
 render();
@@ -62,10 +59,10 @@ document.querySelector('#login-form').addEventListener("submit", async (event) =
         const userId = await response.data.user
         await localStorage.setItem('userId', userId)
         render();
+        document.querySelector('#login-form').reset();
     } catch (error) {
         console.log(error)
     }
-    document.querySelector('#login-form').reset();
 });
 
 // Logout account
@@ -77,8 +74,8 @@ document.querySelector('#logout').addEventListener('click', async (event) => {
 
 
 // Account info
-document.querySelector('.account_info').addEventListener('click', () => {
-    axios.get('http://localhost:3001/members/account_info',{
+document.querySelector('.account_info').addEventListener('click', async (event) => {
+    await axios.get('http://localhost:3001/members/account_info',{
         headers: {
             Authorization: localStorage.getItem('userId')
         }
@@ -182,9 +179,9 @@ async function updateDropDown (eventList) {
 }
 
 // Update account status functions
-async function accountStatus () {
+function accountStatus () {
     if(localStorage.getItem('userId')) {
-        await axios.get('http://localhost:3001/members/account_info',{
+        axios.get('http://localhost:3001/members/account_info',{
                 headers: {
                     Authorization: localStorage.getItem('userId')
                 }
@@ -210,7 +207,6 @@ document.querySelector("#change-subscription").addEventListener("submit", async 
     event.preventDefault();
     const tier = document.querySelector('input[name="subscription"]:checked').value;
     try {
-
         const createEvent = await axios({
             method: 'put',
             url: 'http://localhost:3001/members',
