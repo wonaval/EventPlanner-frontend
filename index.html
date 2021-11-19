@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Event Planner</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <header>
+    <nav>
+      <span id="home">Home</span></br>
+      <span id="registerLink">Register</span>
+      <span id="loginLink">Login</span>
+      <span id="events">Event List</span>
+      <span id="profile">Account Info</span>
+      <span id="logout">Logout</span>
+    </nav>
+  </header>
+  <body>
+  
+    <h1>Welcome to the Event Planner!</h1>
+
+    <div class='register'>
+      <form id="register">
+        <h1>Register Account</h1>
+        <label for="name">Name</label><br/>
+        <input type="text" id="name" name="name"><br/>
+        <label for="username">Username</label><br/>
+        <input type="text" id="username" name="username"><br/>
+        <label for="email">Email</label><br/>
+        <input type="email" id="email" name="email"><br/>
+        <label for="tier1">Tier 1</label>
+        <input type="radio" id="tier1" name="membership" value="1"><br/>
+        <label for="tier2">Tier 2</label>
+        <input type="radio" id="tier2" name="membership" value="2"><br/>
+        <label for="tier3">Tier 3</label>
+        <input type="radio" id="tier3" name="membership" value="3"><br/>
+        <label for="password">Password</label><br/>
+        <input type="password" id="password" name="password"><br/>
+        <input type="submit" value="Sign-up">
+      </form>
+    </div>
+  
+    </br></br>
+
+    <div class="loginForm">
+      <h1>Login Form</h1>
+      <form id="login-form">
+        <label for="email-username">Email</label><br/>
+        <input type="email" id="email-username"><br/>
+        <label for="password-login">Password</label><br/>
+        <input type="password" id="password-login"><br/>
+        <input type="submit" value="Sign-in">
+      </form>
+    </div>
+
+    </br></br>
+
+    <div class="createEvent">
+      <h1>Create Event</h1>
+      <form id="createEvent">
+        <label for="name">Date</label><br/>
+        <input type="date" id="createDate" name="create"><br/>
+        <label for="username">Location</label><br/>
+        <input type="text" id="createLocation" name="username"><br/>
+        <label for="email">Title</label><br/>
+        <input type="text" id="decription" name="decription"><br/>
+        <input type="submit" value="Create Event">
+      </form>
+      <h1>Event List</h1>
+      <div class="eventList">
+      </div>
+      <form class="deleteEvent">
+        <input type="submit" value="Delete Event"></input>
+        <label for="eventId">Event ID:</label>
+        <select id="eventId" name="eventId">
+          <% } %>
+        </select>
+      </form>
+    </div>
+
+  </br></br>
+
+    <div class='account_info'>
+      <h1>Account Information</h1>
+      <div id="welcome">Welcome back,</div>
+      <div id="statusName">Name:</div>
+      <div id="statusUsername">Username:</div>
+      <div id="statusEmail">Email:</div>
+      <div id="statusSubscription">Subscription:</div>
+
+      <form id="change-subscription">
+        <label for="tier1" >Tier 1</label>
+        <input type="radio" id="editTier1" name="subscription" value="1"><br/>
+        <label for="tier2">Tier 2</label>
+        <input type="radio" id="editTier2" name="subscription" value="2"><br/>
+        <label for="tier3">Tier 3</label>
+        <input type="radio" id="editTier3" name="subscription" value="3"><br/>
+        <input type="submit" value="Update Subscription"></form></br>
+        <input type="button" value="Delete Account" id="deleteAccount">
+      </form>
+    </div>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+<script src="main.js" defer async></script>
+</html>
