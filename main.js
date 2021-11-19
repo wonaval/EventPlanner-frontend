@@ -31,7 +31,7 @@ document.querySelector("#register").addEventListener("submit", async (event) => 
     const password = document.querySelector("#password").value;
     const membership = document.querySelector('input[name="membership"]:checked').value;
     try {
-        const response = await axios.post("http://event-planner-seir1011.herokuapp.com/members", {
+        const response = await axios.post("https://event-planner-seir1011.herokuapp.com/members", {
             name: name,
             username: username,
             email: email,
@@ -54,7 +54,7 @@ document.querySelector('#login-form').addEventListener("submit", async (event) =
     const email = document.querySelector('#email-username').value
     const password = document.querySelector('#password-login').value
     try {
-        const response = await axios.post('http://event-planner-seir1011.herokuapp.com/members/login',{
+        const response = await axios.post('https://event-planner-seir1011.herokuapp.com/members/login',{
             email: email,
             password: password
         })
