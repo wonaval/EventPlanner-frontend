@@ -41,7 +41,7 @@ document.querySelector("#register").addEventListener("submit", async (event) => 
         const userId = await response.data.userId
         await localStorage.setItem('userId', userId)
         document.querySelector('#register').reset();
-        await render();
+        await render(); 
     } catch (err) {
         console.log(err);
     }
