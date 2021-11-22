@@ -7,50 +7,53 @@
     <link href="style.css" rel="stylesheet" type="text/css">
   </head>
   <header>
-    <nav>
-      <span id="home">Home</span></br>
-      <span id="registerLink">Register/Login</span>
-      <span id="events">Event List</span>
-      <span id="profile">Account Status</span>
-      <span id="logout">Logout</span>
-    </nav>
+    <div id="topnav">
+      <div class="navWidth">
+        <span id="appName">Event Planner</span>
+        <nav>
+          <span id="home" class="active">Home <img src="/assets/home.png"></span>
+          <span id="registerLink">Login/Register <img src="/assets/login.png"></span>
+          <span id="events">Event List</span>
+          <span id="profile">Account Status</span>
+          <span id="logout">Logout</span>
+        </nav>
+      </div>
+    </div>
   </header>
   <body>
-  
-    <h1>Welcome to the Event Planner!</h1>
 
-    <div class='register'>
-      <form id="register">
-        <h1>Register Account</h1>
-        <label for="name">Name</label><br/>
-        <input type="text" id="name" name="name"><br/>
-        <label for="username">Username</label><br/>
-        <input type="text" id="username" name="username"><br/>
-        <label for="email">Email</label><br/>
-        <input type="email" id="email" name="email"><br/>
-        <label for="tier1">Tier 1</label>
-        <input type="radio" id="tier1" name="membership" value="1"><br/>
-        <label for="tier2">Tier 2</label>
-        <input type="radio" id="tier2" name="membership" value="2"><br/>
-        <label for="tier3">Tier 3</label>
-        <input type="radio" id="tier3" name="membership" value="3"><br/>
-        <label for="password">Password</label><br/>
-        <input type="password" id="password" name="password"><br/>
-        <input type="submit" value="Sign-up">
-      </form>
-    </div>
-  
-    </br></br>
+    <div class="loginRegister"></div>
+      <div class='register'>
+        <form id="register">
+          <h1>Register Account</h1>
+          <label for="name">Name</label><br/>
+          <input type="text" id="name" name="name"><br/>
+          <label for="username">Username</label><br/>
+          <input type="text" id="username" name="username"><br/>
+          <label for="email">Email</label><br/>
+          <input type="email" id="email" name="email"><br/>
+          <label for="tier1">Tier 1</label>
+          <input type="radio" id="tier1" name="membership" value="1"><br/>
+          <label for="tier2">Tier 2</label>
+          <input type="radio" id="tier2" name="membership" value="2"><br/>
+          <label for="tier3">Tier 3</label>
+          <input type="radio" id="tier3" name="membership" value="3"><br/>
+          <label for="password">Password</label><br/>
+          <input type="password" id="password" name="password"><br/>
+          <input type="submit" value="Sign-up">
+        </form>
+      </div>
 
-    <div class="loginForm">
-      <h1>Login Form</h1>
-      <form id="login-form">
-        <label for="email-username">Email</label><br/>
-        <input type="email" id="email-username"><br/>
-        <label for="password-login">Password</label><br/>
-        <input type="password" id="password-login"><br/>
-        <input type="submit" value="Sign-in">
-      </form>
+      <div class="loginForm">
+        <h1>Login Form</h1>
+        <form id="login-form">
+          <label for="email-username">Email</label><br/>
+          <input type="email" id="email-username"><br/>
+          <label for="password-login">Password</label><br/>
+          <input type="password" id="password-login"><br/>
+          <input type="submit" value="Sign-in">
+        </form>
+      </div>
     </div>
 
     </br></br>

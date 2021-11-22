@@ -1,4 +1,4 @@
-const backendUrl = 'http://localhost:3001'
+const backendURL = 'http://localhost:3001'
 
 // Render elements on page
 function render() {
@@ -18,7 +18,7 @@ function render() {
 render();
 showHome(); 
 
-function showHome()  {
+function showHome() {
     document.querySelector('.createEvent').style.display = 'none';
     document.querySelector('.account_info').style.display = 'none';
     document.querySelector('.loginForm').style.display = 'none';
@@ -41,7 +41,7 @@ function showAccount() {
     document.querySelector('.loginForm').style.display = 'none';
     document.querySelector('.register').style.display = 'none';
     render();
-    accountStatus();    
+    accountStatus();
 
 }
 
@@ -56,30 +56,30 @@ function showLogin() {
 // Navigation - .register/.loginForm/.createEvent/.account_info
 // Home
 document.querySelector('#home').addEventListener('click', async (evt)=>{
-    showHome(); 
+    await showHome(); 
 })
 
 // Register/Login
 document.querySelector('#registerLink').addEventListener('click', async (evt)=>{
-    showLogin();
+    await showLogin();
 })
 
 // Account Info
 document.querySelector('#profile').addEventListener('click', async (evt)=>{
-    showAccount();
+    await showAccount();
 })
 
 // Events Link
 document.querySelector('#events').addEventListener('click', async (evt)=>{
-    showEvents();
+    await showEvents();
 })
 
 // Logout account
 document.querySelector('#logout').addEventListener('click', async (event) => {
     await localStorage.removeItem('userId')
-    updateList();
-    updateDropDown();
-    showLogin();
+    await updateList();
+    await updateDropDown();
+    await showLogin();
     alert('Logout successful')
 })
 
@@ -260,6 +260,7 @@ document.querySelector("#change-subscription").addEventListener("submit", async 
                 Authorization: localStorage.getItem('userId')
             }
         })
+        accountStatus();
     } catch (err) {
         console.log(err);
     }
