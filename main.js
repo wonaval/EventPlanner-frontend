@@ -1,81 +1,121 @@
-const backendURL = 'http://localhost:3001'
+const backendUrl = 'http://localhost:3001'
 
-// Render elements on page
+// --- DOM ELEMENTS ---
+// Cards
+const loginCard = document.querySelector('.loginRegisterWrap');
+const eventCard = document.querySelector('.eventWrap');
+const accountCard = document.querySelector('.accountWrap');
+const homeCard = document.querySelector('.homeWrap');
+
+// Navigation
+const homeNav = document.querySelector('#home');
+const loginNav = document.querySelector('#registerLink');
+const profileNav = document.querySelector('#profile');
+const eventNav = document.querySelector('#events');
+const logoutNav = document.querySelector('#logout');
+
+
+// --- RENDER ---
+// Navigation
 function render() {
     if (localStorage.getItem("userId")) {
-        document.querySelector("#profile").style.display = "flex";
-        document.querySelector("#events").style.display = "flex";
-        document.querySelector("#registerLink").style.display = "none";
-        document.querySelector("#logout").style.display = "flex";
+        profileNav.style.display = "flex";
+        eventNav.style.display = "flex";
+        loginNav.style.display = "none";
+        logoutNav.style.display = "flex";
     } else {
-        document.querySelector("#profile").style.display = "none";
-        document.querySelector("#events").style.display = "none";
-        document.querySelector("#registerLink").style.display = "flex";
-        document.querySelector("#logout").style.display = "none";
-        document.querySelector('.eventList').innerHTML = "</br>";
+        profileNav.style.display = "none";
+        eventNav.style.display = "none";
+        loginNav.style.display = "flex";
+        logoutNav.style.display = "none";
+        document.querySelector('#eventList').innerHTML = "";
     }
 }
-render();
-showHome(); 
+
+function removeActive() {
+    homeNav.classList.remove('active')
+    loginNav.classList.remove('active')
+    eventNav.classList.remove('active')
+    profileNav.classList.remove('active')
+}
+
+showHome();
 
 function showHome() {
-    document.querySelector('.createEvent').style.display = 'none';
-    document.querySelector('.account_info').style.display = 'none';
-    document.querySelector('.loginForm').style.display = 'none';
-    document.querySelector('.register').style.display = 'none';
+    removeActive();
+    document.querySelector('#home').classList.add('active')
+
+    homeCard.style.display = 'flex';
+    eventCard.style.display = 'none';
+    accountCard.style.display = 'none';
+    loginCard.style.display = 'none';
+    render();
 }
 
 function showEvents() {
-    document.querySelector('.createEvent').style.display = 'block';
-    document.querySelector('.account_info').style.display = 'none';
-    document.querySelector('.loginForm').style.display = 'none';
-    document.querySelector('.register').style.display = 'none';
+    removeActive()
+    document.querySelector('#events').classList.add('active')
+
+    homeCard.style.display = 'none';
+    eventCard.style.display = 'flex';
+    accountCard.style.display = 'none';
+    loginCard.style.display = 'none';
+
     render();
     updateList();
     updateDropDown();
 }
 
 function showAccount() {
-    document.querySelector('.createEvent').style.display = 'none';
-    document.querySelector('.account_info').style.display = 'block';
-    document.querySelector('.loginForm').style.display = 'none';
-    document.querySelector('.register').style.display = 'none';
+    removeActive()
+    document.querySelector('#profile').classList.add('active')
+
+    homeCard.style.display = 'none';
+    eventCard.style.display = 'none';
+    accountCard.style.display = 'flex';
+    loginCard.style.display = 'none';
+
     render();
     accountStatus();
 
 }
 
 function showLogin() {
-    document.querySelector('.createEvent').style.display = 'none';
-    document.querySelector('.account_info').style.display = 'none';
-    document.querySelector('.loginForm').style.display = 'block';
-    document.querySelector('.register').style.display = 'block';
+    removeActive()
+    document.querySelector('#registerLink').classList.add('active')
+
+    homeCard.style.display = 'none';
+    eventCard.style.display = 'none';
+    accountCard.style.display = 'none';
+    loginCard.style.display = 'flex';
+
     render();
 }
 
-// Navigation - .register/.loginForm/.createEvent/.account_info
+
+// --- DOM FUNCTIONS ---
 // Home
-document.querySelector('#home').addEventListener('click', async (evt)=>{
+homeNav.addEventListener('click', async (evt)=>{
     await showHome(); 
 })
 
 // Register/Login
-document.querySelector('#registerLink').addEventListener('click', async (evt)=>{
+loginNav.addEventListener('click', async (evt)=>{
     await showLogin();
 })
 
 // Account Info
-document.querySelector('#profile').addEventListener('click', async (evt)=>{
+profileNav.addEventListener('click', async (evt)=>{
     await showAccount();
 })
 
 // Events Link
-document.querySelector('#events').addEventListener('click', async (evt)=>{
+eventNav.addEventListener('click', async (evt)=>{
     await showEvents();
 })
 
 // Logout account
-document.querySelector('#logout').addEventListener('click', async (event) => {
+logoutNav.addEventListener('click', async (event) => {
     await localStorage.removeItem('userId')
     await updateList();
     await updateDropDown();
@@ -84,10 +124,9 @@ document.querySelector('#logout').addEventListener('click', async (event) => {
 })
 
 
-
-// PAGE FUNCTIONS
+// --- CARD FUNCTIONS ---
 // Register account
-document.querySelector("#register").addEventListener("submit", async (event) => {
+document.querySelector("#registerForm").addEventListener("submit", async (event) => {
     event.preventDefault();
     try {
         const name = document.querySelector("#name").value;
@@ -96,7 +135,7 @@ document.querySelector("#register").addEventListener("submit", async (event) => 
         const password = document.querySelector("#password").value;
         const membership = document.querySelector('input[name="membership"]:checked').value;
 
-        const response = await axios.post("http://localhost:3001/members", {
+        const response = await axios.post(backendUrl + '/members', {
             name: name,
             username: username,
             email: email,
@@ -105,7 +144,7 @@ document.querySelector("#register").addEventListener("submit", async (event) => 
         });
         const userId = await response.data.userId
         await localStorage.setItem('userId', userId)
-        document.querySelector('#register').reset();
+        document.querySelector('#registerForm').reset();
         await showEvents();
     } catch (error) {
         console.log({error})
@@ -113,41 +152,41 @@ document.querySelector("#register").addEventListener("submit", async (event) => 
     }
 });
 
+
 // Login account
-document.querySelector('#login-form').addEventListener("submit", async (event) => {
+document.querySelector('#loginForm').addEventListener("submit", async (event) => {
     event.preventDefault();
     try {
         const email = document.querySelector('#email-username').value
         const password = document.querySelector('#password-login').value
 
-        const response = await axios.post('http://localhost:3001/members/login',{
+        const response = await axios.post(backendUrl + '/members/login',{
             email: email,
             password: password
         })
-        console.log(response)
         const userId = await response.data.user
         await localStorage.setItem('userId', userId)
-        document.querySelector('#login-form').reset();
+        document.querySelector('#loginForm').reset();
         showEvents();
     } catch (error) {
-        console.log(error)
+        console.log({error})
         alert('Account not found')
     }
 });
 
+
 // Create event
 document.querySelector('#createEvent').addEventListener('submit', async (event) => {
     event.preventDefault();
-
+    try {
     const date = document.querySelector('#createDate').value
     const location = document.querySelector('#createLocation').value
-    const description = document.querySelector('#decription').value
+    const description = document.querySelector('#title').value
     const user = localStorage.getItem('userId')
 
-    try {
     const createEvent = await axios({
         method: 'post',
-        url: 'http://localhost:3001/events',
+        url: backendUrl + '/events',
         data: {
             date: date,
             location: location,
@@ -165,11 +204,10 @@ document.querySelector('#createEvent').addEventListener('submit', async (event) 
 })
 
 
-
-    // Update Event List
+// Update Event List
 async function updateList() {
     try{
-        const axiosObject = await axios.get('http://localhost:3001/members/events', {
+        const axiosObject = await axios.get(backendUrl + '/members/events', {
             headers: {
                 Authorization: localStorage.getItem('userId')
             }
@@ -177,7 +215,7 @@ async function updateList() {
         const eventList = axiosObject.data.allEvents
         if (eventList !== undefined) {
             updateDropDown(eventList);
-            document.querySelector('.eventList').innerHTML = "";
+            document.querySelector('#eventList').innerHTML = "";
             for (let i = 0; i < eventList.length; i++) {
                 let eventDiv = document.createElement("div");
                 let eventId = document.createTextNode(`Event ID: ${eventList[i].id}`);
@@ -193,19 +231,20 @@ async function updateList() {
                 eventDiv.appendChild(eventLocation);
                 eventDiv.appendChild(document.createElement("br"));
                 eventDiv.appendChild(document.createElement("br"));
-                const eventsList = document.querySelector(".eventList");
+                const eventsList = document.querySelector("#eventList");
                 eventsList.appendChild(eventDiv);
             }
         }
     } catch (error) {
-        console.log(error)
+        console.log({error})
     }
 }
 
+
 // Update delete event dropdown entries
 async function updateDropDown (eventList) {
+    document.querySelector('#eventIdent').innerHTML = "";
 
-    document.querySelector('#eventId').innerHTML = "";
     if (eventList) {
         let idList = eventList.map((element) => {
             return element.id
@@ -214,16 +253,17 @@ async function updateDropDown (eventList) {
             let option = document.createElement('option');
             option.text = idList[i];
             option.value = idList[i];
-            const select = document.querySelector('#eventId');
+            const select = document.querySelector('#eventIdent');
             select.appendChild(option)
         }
     }
 }
 
+
 // Update account status functions
 function accountStatus () {
     if(localStorage.getItem('userId')) {
-        axios.get('http://localhost:3001/members/account_info',{
+        axios.get(backendUrl + '/members/account_info',{
                 headers: {
                     Authorization: localStorage.getItem('userId')
                 }
@@ -252,7 +292,7 @@ document.querySelector("#change-subscription").addEventListener("submit", async 
 
         const createEvent = await axios({
             method: 'put',
-            url: 'http://localhost:3001/members',
+            url: backendUrl + '/members',
             data: {
                 level: tier
             },
@@ -261,10 +301,11 @@ document.querySelector("#change-subscription").addEventListener("submit", async 
             }
         })
         accountStatus();
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.log({error});
     }
 })
+
 
 // Delete account
 document.querySelector('#deleteAccount').addEventListener('click', async (event) => {
@@ -273,7 +314,7 @@ document.querySelector('#deleteAccount').addEventListener('click', async (event)
         event.preventDefault();
     } else {
         try {
-            const deleteAccount = await axios.delete('http://localhost:3001/members', {
+            const deleteAccount = await axios.delete(backendUrl + '/members', {
                 headers: {
                     Authorization: localStorage.getItem('userId')
                 }
@@ -282,13 +323,14 @@ document.querySelector('#deleteAccount').addEventListener('click', async (event)
             showLogin();
             alert('Account successfully deleted')
         } catch (error) {
-            console.log(error)
+            console.log({error})
         }
     }
 })
 
+
 // Delete event
-document.querySelector('.deleteEvent').addEventListener('submit', async (event) => {
+document.querySelector('#deleteEvent').addEventListener('submit', async (event) => {
     event.preventDefault();
     if ( ! confirm("Are you sure?")) {
         event.preventDefault();
@@ -297,7 +339,7 @@ document.querySelector('.deleteEvent').addEventListener('submit', async (event) 
             const eventId = document.querySelector('#eventId').value;
             const deleteEvent = await axios({
                 method: 'delete',
-                url: 'http://localhost:3001/events', 
+                url: backendUrl + '/events', 
                 data: {
                     id: eventId
                 },
@@ -308,7 +350,7 @@ document.querySelector('.deleteEvent').addEventListener('submit', async (event) 
             await showEvents();
             alert('Event successfully deleted')
         } catch (error) {
-            console.log(error)
+            console.log({error})
         }
     }
 })

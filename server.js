@@ -7,6 +7,11 @@ const path = require('path')
 
 const replaceInFile = require('replace-in-file')
 
+app.get('/background.jpeg', (req, res) => {
+    const filepath = path.join(__dirname, 'background.jpeg')
+    res.sendFile(filepath)
+})
+
 app.get('/', (req, res) => {
     const filepath = path.join(__dirname, 'index.html')
     res.sendFile(filepath)

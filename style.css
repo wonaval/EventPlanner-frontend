@@ -1,36 +1,51 @@
 body {
   margin: 0px;
 
-  background: #1B1B23;
+  background-image: url("background.jpeg");
   color: #E9E7E5;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+} 
+
+.mainWrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 720px;
+  min-height: 480px;
+  margin: 20px 0 0 0; 
+  background: rgba(27, 27, 35, 0.75);
+  border: 1px solid black;
+  border-radius: 5px;
 }
 
 #appName {
   font-size: 24px;
 }
 
-div {
-
-}
-
 #topnav {
+  width: 720px;
+
   display: flex;
   justify-content: center;
   height: 50px;
-  background: #393E46;
+  background: rgba(57, 62, 70, 0.75);
   overflow: hidden;
-
+  border-radius: 0 0 5px 5px;
+  border: 1px solid black;
 }
 
-.navWidth {
-  width: 1080px;
-
+.navWrap {
   display: flex;
   flex-direction: row;
-  padding: 0 0 0 10px;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  padding: 25px;
 }
 
 nav {
@@ -38,13 +53,75 @@ nav {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 0 10px;
+  font-size: 16px;
 }
 
 nav span {
-  margin: 0 5px;
+  margin: 0 0 0 20px;
+  cursor: pointer;
 }
 
 .active {
   color: #FFD369;
+  text-decoration: underline solid 3px;
+  text-underline-offset: 2px;
+}
+
+.homeWrap, .loginRegisterWrap, .eventWrap, .accountWrap {
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  flex-direction: column;
+  margin: 25px;
+}
+
+.login, .register, .createEvent, .eventListWrap, .tier1Wrap, .tier2Wrap, .tier3Wrap, .accountInfo  {
+  width: 360px;
+  min-height: 120px;  
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  flex-direction: column; 
+  text-align: center;
+}
+
+.button {
+  background-color :rgba(57, 62, 70, 0.75);
+  border: 1px solid black;
+  color: #FFD369;
+  height: 20px;
+  font-size: 16px;
+  margin: 5px 0 20px 0;
+  width: 175px;
+  transition-duration: 0.2s;
+  height: 30px;
+}
+
+.button:hover {
+  background: rgba(89, 96, 109, 0.75); 
+}
+
+.header {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 0 10px 0;
+  color: #FFD369;
+}
+
+.notes {
+  font-size: 12px;
+  padding: 10px 0;
+}
+
+footer {
+  font-size: 10px;
+  padding: 5px 0;
+  color: #FFD369;
+}
+
+footer a {
+  font-size: 10px;
+  padding: 5px 0;
+  color: #FFD369;
+  text-decoration: none;
 }

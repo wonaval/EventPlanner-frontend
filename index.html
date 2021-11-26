@@ -8,11 +8,11 @@
   </head>
   <header>
     <div id="topnav">
-      <div class="navWidth">
+      <div class="navWrap">
         <span id="appName">Event Planner</span>
         <nav>
-          <span id="home" class="active">Home <img src="/assets/home.png"></span>
-          <span id="registerLink">Login/Register <img src="/assets/login.png"></span>
+          <span id="home" class="active">Home</span>
+          <span id="registerLink">Login/Register</span>
           <span id="events">Event List</span>
           <span id="profile">Account Status</span>
           <span id="logout">Logout</span>
@@ -22,88 +22,111 @@
   </header>
   <body>
 
-    <div class="loginRegister"></div>
-      <div class='register'>
-        <form id="register">
-          <h1>Register Account</h1>
-          <label for="name">Name</label><br/>
-          <input type="text" id="name" name="name"><br/>
-          <label for="username">Username</label><br/>
-          <input type="text" id="username" name="username"><br/>
-          <label for="email">Email</label><br/>
-          <input type="email" id="email" name="email"><br/>
-          <label for="tier1">Tier 1</label>
-          <input type="radio" id="tier1" name="membership" value="1"><br/>
-          <label for="tier2">Tier 2</label>
-          <input type="radio" id="tier2" name="membership" value="2"><br/>
-          <label for="tier3">Tier 3</label>
-          <input type="radio" id="tier3" name="membership" value="3"><br/>
-          <label for="password">Password</label><br/>
-          <input type="password" id="password" name="password"><br/>
-          <input type="submit" value="Sign-up">
-        </form>
+    <div class='mainWrap'>
+      <div class="homeWrap">
+        <div class='tier1Wrap'>
+          <span id='homeTier1' class='header'>Tier 1</span>
+            <div>10 Event Posts</div>
+
+        </div>
+        <div class='tier2Wrap'>
+          <span id='homeTier2' class='header'>Tier 2</span>
+          <div>50 Event Posts</div>
+        </div>
+        <div class='tier3Wrap'>
+          <span id='homeTier3' class='header'>Tier 3</span>
+            <div>Unlimited Event Posts</div>
+        </div>
       </div>
 
-      <div class="loginForm">
-        <h1>Login Form</h1>
-        <form id="login-form">
-          <label for="email-username">Email</label><br/>
-          <input type="email" id="email-username"><br/>
-          <label for="password-login">Password</label><br/>
-          <input type="password" id="password-login"><br/>
-          <input type="submit" value="Sign-in">
-        </form>
+      
+      <div class="loginRegisterWrap">
+        <div class="login">
+          <div class='header'>Login Form</div>
+          <form id="loginForm">
+            <label for="email-username">Email</label><br/>
+            <input type="email" id="email-username"><br/>
+            <label for="password-login">Password</label><br/>
+            <input type="password" id="password-login"><br/><br/>
+            <input type="submit" value="Sign-in" class="button">
+            <div class='notes'>Don't have an account? Register below!</div>
+          </form>
+        </div>
+
+        <div class='register'>
+          <form id='registerForm'>
+            <div class='header'>Register Account</div>
+            <label for="name">Name</label><br/>
+            <input type="text" id="name" name="name"><br/>
+            <label for="username">Username</label><br/>
+            <input type="text" id="username" name="username"><br/>
+            <label for="email">Email</label><br/>
+            <input type="email" id="email" name="email"><br/>
+            <label for="tier1">Tier 1</label>
+            <input type="radio" id="tier1" name="membership" value="1"><br/>
+            <label for="tier2">Tier 2</label>
+            <input type="radio" id="tier2" name="membership" value="2"><br/>
+            <label for="tier3">Tier 3</label>
+            <input type="radio" id="tier3" name="membership" value="3"><br/>
+            <label for="password">Password</label><br/>
+            <input type="password" id="password" name="password"><br/><br/>
+            <input type="submit" value="Sign-up" class="button">
+          </form>
+        </div>  
       </div>
-    </div>
 
-    </br></br>
-
-    <div class="createEvent">
-      <h1>Create Event</h1>
-      <form id="createEvent">
-        <label for="name">Date</label><br/>
-        <input type="date" id="createDate" name="create"><br/>
-        <label for="username">Location</label><br/>
-        <input type="text" id="createLocation" name="username"><br/>
-        <label for="email">Title</label><br/>
-        <input type="text" id="decription" name="decription"><br/>
-        <input type="submit" value="Create Event">
-      </form>
-      <h1>Event List</h1>
-      <div class="eventList">
+      <div class="eventWrap">
+        <div class="createEvent">
+          <div class='header'>Create Event</div>
+          <div class='notes'>Add an event by filling out the<br/>date, location, and title below.</div>
+          <form id="createEvent">
+            <label for="name">Date</label><br/>
+            <input type="date" id="createDate" name="create"><br/>
+            <label for="username">Location</label><br/>
+            <input type="text" id="createLocation" name="username"><br/>
+            <label for="email">Title</label><br/>
+            <input type="text" id="title" name="title"><br/>
+            <input type="submit" value="Create Event" class="button">
+          </form>
+          <form id="deleteEvent">
+            <label for="eventId">Event ID:</label>
+            <select id="eventIdent" name="eventId"></select><br/>
+            <input type="submit" value="Delete Event" class="button">
+          </form>
+        </div>  
+        <div class="eventListWrap">
+          <div class='header'>Event List</div>
+          <div id="eventList"></div>
+          </div>
       </div>
-      <form class="deleteEvent">
-        <input type="submit" value="Delete Event"></input>
-        <label for="eventId">Event ID:</label>
-        <select id="eventId" name="eventId">
-          <% } %>
-        </select>
-      </form>
-    </div>
 
-  </br></br>
+      <div class="accountWrap">
+        <div class='accountInfo'>
+          <div class='header'>Account Information</div>
+          <div id="welcome">Welcome back,</div>
+          <div id="statusName">Name:</div>
+          <div id="statusUsername">Username:</div>
+          <div id="statusEmail">Email:</div>
+          <div id="statusSubscription">Subscription:</div>
 
-    <div class='account_info'>
-      <h1>Account Information</h1>
-      <div id="welcome">Welcome back,</div>
-      <div id="statusName">Name:</div>
-      <div id="statusUsername">Username:</div>
-      <div id="statusEmail">Email:</div>
-      <div id="statusSubscription">Subscription:</div>
-
-      <form id="change-subscription">
-        <label for="tier1" >Tier 1</label>
-        <input type="radio" id="editTier1" name="subscription" value="1"><br/>
-        <label for="tier2">Tier 2</label>
-        <input type="radio" id="editTier2" name="subscription" value="2"><br/>
-        <label for="tier3">Tier 3</label>
-        <input type="radio" id="editTier3" name="subscription" value="3"><br/>
-        <input type="submit" value="Update Subscription"></form></br>
-        <input type="button" value="Delete Account" id="deleteAccount">
-      </form>
+          <form id="change-subscription">
+            <label for="tier1">Tier 1</label>
+            <input type="radio" id="editTier1" name="subscription" value="1"><br/>
+            <label for="tier2">Tier 2</label>
+            <input type="radio" id="editTier2" name="subscription" value="2"><br/>
+            <label for="tier3">Tier 3</label>
+            <input type="radio" id="editTier3" name="subscription" value="3"><br/>
+            <input type="submit" value="Update Subscription" class="button"><br/>
+            <input type="button" value="Delete Account" id="deleteAccount" class="button">
+          </form>
+        </div>
+      </div>
     </div>
 
 </body>
+<footer>
+  Event Planner © 2021 - <a href='https://github.com/wonaval'>wonaval</a>, <a href='https://git.generalassemb.ly/HBlunk097'>habit</a>, <a href='https://git.generalassemb.ly/sophia'>yang su</a>
+</footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
-<script src="main.js" defer async></script>
+<script src="main.js" defer></script>
 </html>
