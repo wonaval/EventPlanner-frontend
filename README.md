@@ -1,5 +1,8 @@
 # Event Planner
 Authors: Will, Yang Su, HABIT
+---
+
+Deployed at https://event-planner-wonaval.herokuapp.com/
 
 ---
 ## Description
